@@ -25,7 +25,7 @@ def add_bg_from_local(image_file):
 
 
 
-st.subheader("SAT 01: Kelp Alert")
+st.subheader("SAT 01: Blue Alert")
 st.markdown('**Prototipo de Plataforma**: Satellite monitoring of the cover of Kelp forest ecosystems')
 # st.markdown("##### Prototipo de Plataforma:")
 

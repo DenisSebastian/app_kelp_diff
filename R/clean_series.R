@@ -18,7 +18,7 @@ csv_files <-  list.files(path = path_csv, pattern = "Low*", full.names = T) %>%
     select(date = Image_date,Kelp = area_kelp, Site=variable)
 
 head(csv_files)
-write_csv2(csv_files, "data/csv/kelp_data.csv")
+write.csv(csv_files, "data/csv/kelp_data.csv",  row.names = FALSE)
 
 par <- read.csv("data/csv/PAR_data.csv") %>% 
     rename(date =date_start) %>% 

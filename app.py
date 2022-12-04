@@ -31,10 +31,11 @@ st.markdown('**Prototipo de Plataforma**: Satellite monitoring of the cover of K
 
 st.markdown("##### Visualización Espacial (solo prueba):")
 
-np.random.seed(42) 
-chart_data = pd.DataFrame(
-   np.random.randn(500, 2) / [200, 200] + [-33.35586626066772, -71.65975190473253],
-   columns=['lat', 'lon'])
+# np.random.seed(42) 
+# chart_data = pd.DataFrame(
+#    np.random.randn(1000, 2) / [200, 200] + [-33.35586626066772, -71.65975190473253],
+#    columns=['lat', 'lon'])
+chart_data =  pd.read_csv("data/csv/coords_mar.csv")
 
 st.pydeck_chart(pdk.Deck(
     map_style='mapbox://styles/mapbox/satellite-v9',
@@ -48,10 +49,10 @@ st.pydeck_chart(pdk.Deck(
         pdk.Layer(
            'HexagonLayer',
            data=chart_data,
-           get_position='[lon, lat]',
-           radius=20,
+           get_position='[X, Y]',
+           radius=50,
            elevation_scale=4,
-           elevation_range=[0, 500],
+           elevation_range=[0, 100],
            pickable=True,
            extruded=True,
         ),

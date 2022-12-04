@@ -2,11 +2,71 @@ import streamlit as st
 import pandas as pd
 import os
 import plotly.express as px
+import numpy as np
+import pydeck as pdk
+import base64
 
-st.title("Kelp Difference")
-st.markdown("##### Prototipo de Plataforma")
+#style
+def add_bg_from_local(image_file):
+    with open(image_file, "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read())
+    st.markdown(
+    f"""
+    <style>
+    .stApp {{
+        background-image: url(data:image/{"png"};base64,{encoded_string.decode()});
+        background-size: cover
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+    )
+# add_bg_from_local('images/Macrocystis2.JPG')    
 
 
+
+st.subheader("SAT 01: Kelp Alert")
+st.markdown('**Prototipo de Plataforma**: Satellite monitoring of the cover of Kelp forest ecosystems')
+# st.markdown("##### Prototipo de Plataforma:")
+
+st.markdown("##### Visualización Espacial (solo prueba):")
+
+np.random.seed(42) 
+chart_data = pd.DataFrame(
+   np.random.randn(500, 2) / [200, 200] + [-33.35586626066772, -71.65975190473253],
+   columns=['lat', 'lon'])
+
+st.pydeck_chart(pdk.Deck(
+    map_style='mapbox://styles/mapbox/satellite-v9',
+    initial_view_state=pdk.ViewState(
+        latitude=-33.35586626066772,
+        longitude=-71.65975190473253,
+        zoom=12,
+        pitch=20,
+    ),
+    layers=[
+        pdk.Layer(
+           'HexagonLayer',
+           data=chart_data,
+           get_position='[lon, lat]',
+           radius=20,
+           elevation_scale=4,
+           elevation_range=[0, 500],
+           pickable=True,
+           extruded=True,
+        ),
+        # pdk.Layer(
+        #     'ScatterplotLayer',
+        #     data=chart_data,
+        #     get_position='[lon, lat]',
+        #     get_color='[200, 30, 0, 160]',
+        #     get_radius=200,
+        # ),
+    ],
+))
+
+
+st.markdown("##### Análisis de Serie de Tiempo:")
 col1, col2 = st.columns(2)
 
 with col1:
@@ -16,6 +76,7 @@ with col1:
         options = ["PAR", "SST"])
 
 
+    
 # # checkbox para remove NA values de la serie
 # data_radio = st.radio(
 #      label = "Seleccione tipo de datos",
@@ -47,7 +108,6 @@ df = pd.read_csv(fullname)
 with col2:
     # Selector de Serie
     serie_filter = st.selectbox("Seleccionar Serie", pd.unique(df["Site"]))
-
 
 
 title_plot = str("Time Serie "+ base_select +" en "+serie_filter)
@@ -82,10 +142,17 @@ fig.update_xaxes(rangeslider_visible=True,
 )
 st.plotly_chart(fig, use_container_width=False)
 
+
+col1, col2, col3 = st.columns(3)
+col1.metric("Temperatura", "17 °C", "1.2 °C")
+col2.metric("Viento", "12 kph", "-8%")
+col3.metric("Humedad", "86%", "4%")
+
 # Descipción de la APP
 
 st.subheader("Descipción:")
-st.write("Complementar")
+st.markdown("**Bosques de algas**")
+st.write("Los bosques submarinos son sistemas ecológicos complejos y altamente productivos, caracterizado por la presencia de grandes algas capaces de formar un dosel sobre los fondos submarinos. Estos bosques forman hábitat, refugio, sitios de desove y alimentación, para un gran número de invertebrados y peces (Ruz et al. 2021; Vega et al. 2005, Teagle et al. 2017, Carbajal et al. 2021, Bularz et al. 2022), otorgan diversos servicios ecosistémicos de soporte (mantenimiento de biodiversidad, protección contra oleaje), de regulación (por ejemplo el ciclaje de nutrientes, captación de carbono y producción de oxígeno), de provisión (alimentos, materia prima para biomateriales, biocombustibles, etc) y culturales (turismo y recreación, beneficios estéticos, entre otros).")
 
 # st.latex(r'''
 # NDVI = \frac{NIR-RED}{NIR+RED}

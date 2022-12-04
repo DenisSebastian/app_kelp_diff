@@ -73,7 +73,7 @@ with col1:
     # Selección de Bases
     base_select = st.selectbox(
         label = "Seleccione Índice",
-        options = ["PAR", "SST"])
+        options = ["Kelp", "PAR", "SST"])
 
 
     
@@ -120,7 +120,7 @@ df_serie = df.loc[(df.Site == serie_filter)]
 width = 750
 height = 550
 
-fig = px.line(df_serie, x='date_start', y=base_select, title=title_plot
+fig = px.line(df_serie, x='date', y=base_select, title=title_plot
         #,width = width, height= height
 )
 
@@ -160,3 +160,8 @@ st.write("Los bosques submarinos son sistemas ecológicos complejos y altamente 
 
 # st.image("images/descp_ndvi.jpeg")
 # st.markdown("**Autor:** [denis.berroeta@uai.cl](denis.berroeta@uai.cl)")
+
+
+## https://discuss.streamlit.io/t/event-handling-of-pydeck-chart-map-in-streamlit/10842
+# https://discuss.streamlit.io/t/showing-geotiff-raster-data/11170/4
+# https://github.com/randyzwitch/streamlit-folium
